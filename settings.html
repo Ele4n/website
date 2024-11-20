@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Customize Your Website</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file -->
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .settings-panel h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .setting-item {
+            margin-bottom: 20px;
+        }
+
+        .setting-item label {
+            font-weight: bold;
+        }
+
+        .setting-item input[type="color"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .setting-item select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Preview Text */
+        .preview {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e9e9e9;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Settings Panel -->
+    <div class="settings-panel">
+        <h2>Customize Your Website</h2>
+
+        <!-- Background Color -->
+        <div class="setting-item">
+            <label for="backgroundColor">Choose Background Color:</label>
+            <input type="color" id="backgroundColor" value="#ffffff">
+        </div>
+
+        <!-- Text Color -->
+        <div class="setting-item">
+            <label for="textColor">Choose Text Color:</label>
+            <input type="color" id="textColor" value="#000000">
+        </div>
+
+        <!-- Font Selection -->
+        <div class="setting-item">
+            <label for="fontFamily">Choose Font:</label>
+            <select id="fontFamily">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Courier New', Courier, monospace">Courier New</option>
+                <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                <option value="'Verdana', sans-serif">Verdana</option>
+            </select>
+        </div>
+
+        <!-- Save Button -->
+        <div class="setting-item">
+            <button id="saveButton" onclick="saveChanges()">Save Changes</button>
+        </div>
+
+        <!-- Preview -->
+        <div class="preview" id="preview">
+            <h3>Your Preview</h3>
+            <p>This is a preview of your changes. Modify the settings above to see the results live!</p>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const backgroundColorInput = document.getElementById('backgroundColor');
+        const textColorInput = document.getElementById('textColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const preview = document.getElementById('preview');
+
+        // Listen to changes and update the preview
+        backgroundColorInput.addEventListener('input', updatePreview);
+        textColorInput.addEventListener('input', updatePreview);
+        fontFamilySelect.addEventListener('change', updatePreview);
+
+        // Update preview in real-time
+        function updatePreview() {
+            const bgColor = backgroundColorInput.value;
+            const textColor = textColorInput.value;
+            const fontFamily = fontFamilySelect.value;
+
+            preview.style.backgroundColor = bgColor;
+            preview.style.color = textColor;
+            preview.style.fontFamily = fontFamily;
+        }
+
+        // Save the changes (e.g., store them in localStorage or send to the backend)
+        function saveChanges() {
+            const bgColor = backgroundColorInput.value;
+            const textColor = textColorInput.value;
+            const fontFamily = fontFamilySelect.value;
+
+            // Save the preferences in localStorage for persistence
+            localStorage.setItem('bgColor', bgColor);
+            localStorage.setItem('textColor', textColor);
+            localStorage.setItem('fontFamily', fontFamily);
+
+            // Apply the saved changes immediately
+            applySavedChanges();
+
+            // Optionally: Show a message after saving
+            alert('Your changes have been saved!');
+        }
+
+        // Apply saved preferences when the page loads
+        window.addEventListener('load', applySavedChanges);
+
+        function applySavedChanges() {
+            const bgColor = localStorage.getItem('bgColor');
+            const textColor = localStorage.getItem('textColor');
+            const fontFamily = localStorage.getItem('fontFamily');
+
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+                backgroundColorInput.value = bgColor;
+            }
+            if (textColor) {
+                document.body.style.color = textColor;
+                textColorInput.value = textColor;
+            }
+            if (fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+                fontFamilySelect.value = fontFamily;
+            }
+        }
+
+        // Additional code to apply settings to other pages
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve stored design settings from localStorage
+            const bgColor = localStorage.getItem("bgColor");
+            const textColor = localStorage.getItem("textColor");
+            const font = localStorage.getItem("font");
+
+            // Apply the saved settings to the page if they exist
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+            }
+            if (textColor) {
+                document.body.style.color = textColor;
+            }
+            if (font) {
+                document.body.style.fontFamily = font;
+            }
+        });
+
+        document.getElementById("saveButton").addEventListener("click", function() {
+            // Get selected values
+            const selectedBgColor = document.getElementById("backgroundColor").value;
+            const selectedTextColor = document.getElementById("textColor").value;
+            const selectedFont = document.getElementById("fontFamily").value;
+
+            // Save to localStorage
+            localStorage.setItem("bgColor", selectedBgColor);
+            localStorage.setItem("textColor", selectedTextColor);
+            localStorage.setItem("font", selectedFont);
+
+            // Optionally, alert the user that the changes were saved
+            alert("Changes saved! Your settings will be applied across the site.");
+
+            // Redirect back to the dashboard (or stay on the same page)
+            window.location.href = "dashboard.html";  // or use location.reload() to reload the page
+        });
+    </script>
+</body>
+</html>
