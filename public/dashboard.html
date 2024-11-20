@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="sidebar.css"> <!-- Include your CSS file -->
+    <style>
+        /* Basic styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: margin-left 0.3s ease;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;  /* Sidebar is initially hidden */
+            transition: left 0.3s ease;
+            padding: 20px;
+        }
+        
+        .sidebar.open {
+            left: 0;  /* Sidebar opens when 'open' class is added */
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+        }
+
+        /* Main content styles */
+        main {
+            margin-left: 270px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* For small screens (e.g., mobile) to improve responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            main {
+                margin-left: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar with User Email -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-welcome">
+            <h2>Hello, <span id="userEmail">[User's Email]</span>!</h2>
+        </div>
+        <ul>
+            <!-- Sidebar links lined up vertically -->
+            <li><a href="home.html">Home</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="javascript:void(0)" id="logoutLink">Logout</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <h1>Welcome to your Dashboard!</h1>
+        <p>We’re thrilled to have you join our community. This is your safe space to express yourself, reflect on your day, and keep track of your thoughts, memories, and experiences. Whether you're here to jot down a fleeting thought or document your journey, we’re here to provide a private, simple, and secure environment for your reflections.
+
+            Feel free to explore, write, and make this space truly yours. Every entry is a step in your story, and we’re excited to be a part of that. Welcome aboard — we can’t wait to see what you’ll create!</p>
+        <!-- Other dashboard content -->
+    </main>
+
+    <script>
+        // Fetch user details when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchUserDetails();
+        });
+
+        async function fetchUserDetails() {
+            try {
+                const response = await fetch('/user-details', { credentials: 'include' });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user details.');
+                }
+                const data = await response.json();
+                if (data.success) {
+                    // Update the element with user email
+                    document.getElementById('userEmail').textContent = data.user.email;
+                } else {
+                    console.error('Failed to fetch user details:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+        }
+
+         // Apply saved design settings when the page loads
+         window.addEventListener('load', function () {
+            const bgColor = localStorage.getItem('bgColor');
+            const textColor = localStorage.getItem('textColor');
+            const fontFamily = localStorage.getItem('fontFamily');
+            const sidebarBgColor = localStorage.getItem('sidebarBgColor');  // Added for sidebar's color
+
+            // Apply the saved settings to the page if they exist
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+                document.querySelector('.content').style.backgroundColor = bgColor;
+            }
+
+            if (textColor) {
+                document.body.style.color = textColor;
+                document.querySelector('.content').style.color = textColor;
+            }
+
+            if (fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+                document.querySelector('.content').style.fontFamily = fontFamily;
+            }
+
+            // Apply sidebar background color if set
+            if (sidebarBgColor) {
+                document.querySelector('.sidebar').style.backgroundColor = sidebarBgColor;
+            }
+        });
+
+
+        // Add logout functionality
+        document.getElementById('logoutLink').addEventListener('click', function (event) {
+            event.preventDefault();
+            performLogout();
+        });
+
+        async function performLogout() {
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                if (response.ok) {
+                    // Redirect to login page after logout
+                    window.location.href = 'login.html';
+                } else {
+                    console.error('Logout failed');
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+            }
+        }
+
+        // Toggle the sidebar when hovered or clicked
+        const sidebar = document.getElementById('sidebar');
+
+        // Open sidebar when mouse enters or click to toggle
+        sidebar.addEventListener('mouseenter', function () {
+            sidebar.classList.add('open');
+        });
+
+        // Close sidebar when mouse leaves or click to toggle
+        sidebar.addEventListener('mouseleave', function () {
+            sidebar.classList.remove('open');
+        });
+
+        // Optional: Toggle on click for mobile or specific devices
+        sidebar.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

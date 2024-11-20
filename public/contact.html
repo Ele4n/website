@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Header styles */
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2rem;
+        }
+
+        .header nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main content styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px; /* Add top padding to prevent overlap with header */
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Adjust layout for better visual hierarchy */
+        .content h1 {
+            font-size: 2rem;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation links -->
+    <div class="header">
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="settings.html">Settings</a>
+        </nav>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <h1>Contact Us</h1>
+        <p>This is the contact page. Reach out to us through the options provided!</p>
+    </div>
+
+    <script>
+        // Apply saved design settings when the page loads
+        window.addEventListener('load', function () {
+            const bgColor = localStorage.getItem('bgColor');
+            const textColor = localStorage.getItem('textColor');
+            const fontFamily = localStorage.getItem('fontFamily');
+
+            // Apply the saved settings to the page if they exist
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+            }
+            if (textColor) {
+                document.body.style.color = textColor;
+            }
+            if (fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+            }
+        });
+    </script>
+</body>
+</html>

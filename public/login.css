@@ -1,0 +1,18 @@
+/* Apply this to the container of your form */
+.container {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    height: 100vh;            /* Make the container take full viewport height */
+    margin: 0;
+  }
+  
+  /* Optional: Style for the form */
+  form {
+    width: 300px;             /* Set a width for your form */
+    padding: 20px;
+    border: 1px solid #ccc;   /* Optional: Add a border to the form */
+    border-radius: 8px;       /* Optional: Add rounded corners */
+    background-color: #fff;   /* Optional: Add background color */
+  }
+  

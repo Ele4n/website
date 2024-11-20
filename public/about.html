@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>My Website</h2>
+        </div>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="#" id="logoutLink">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <h1>About Us</h1>
+        <p>This is the about page. Learn more about the team behind the website here.</p>
+    </div>
+
+    <script>
+         // Apply saved design settings when the page loads
+         window.addEventListener('load', function () {
+            const bgColor = localStorage.getItem('bgColor');
+            const textColor = localStorage.getItem('textColor');
+            const fontFamily = localStorage.getItem('fontFamily');
+
+            // Apply the saved settings to the page if they exist
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+            }
+            if (textColor) {
+                document.body.style.color = textColor;
+            }
+            if (fontFamily) {
+                document.body.style.fontFamily = fontFamily;
+            }
+        });
+
+         // Logout functionality
+         document.getElementById('logoutLink').addEventListener('click', function (event) {
+            event.preventDefault();
+            // Perform logout actions here (e.g., session clear, redirection)
+            window.location.href = "login.html";  // or wherever you want to redirect
+        });
+    </script>
+</body>
+</html>
