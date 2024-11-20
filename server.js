@@ -19,8 +19,6 @@ const client = new MongoClient(mongoUri, {
   useUnifiedTopology: true
 });
 
-// Configure SendGrid API Key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -168,6 +166,9 @@ function generateRandomString(length) {
   }
   return result;
 }
+
+// Configure SendGrid API Key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Send Email Function
 async function sendResetCodeEmail(email, resetCode) {
